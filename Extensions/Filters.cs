@@ -16,26 +16,9 @@ internal static class Filters
         return [.. genresHash];
     }
 
-    public static void PrintUniqueGenres(this List<Music> musicas)
-    {
-        var uniqueGenres = musicas.GetUniqueGenres();
-
-        foreach (var genres in uniqueGenres)
-            Console.WriteLine($"- {genres}");
-    }
-
     public static List<string> GetArtistsByGenre(this List<Music> musicas, string genre)
     {
         return [.. musicas.Where(m => m.IsValid && m.Genre!.Contains(genre, StringComparison.CurrentCultureIgnoreCase)).Select(m => m.Artist).Distinct()];
-    }
-
-    public static void PrintArtistsByGenre(this List<Music> musicas, string genre)
-    {
-        var artists = musicas.GetArtistsByGenre(genre);
-
-        Console.WriteLine($"Artistas por gênero ({genre}): ");
-        foreach (var name in artists)
-            Console.WriteLine($"- {name}");
     }
 
     public static List<Music> GetMusicByArtist(this List<Music> musicas, string artistName)
@@ -43,12 +26,13 @@ internal static class Filters
         return [.. musicas.Where(m => m.IsValid && m.Artist!.Equals(artistName)).Distinct()];
     }
 
-    public static void PrintMusicByArtist(this List<Music> musicas, string artistName)
+    public static List<Music> GetMusicByTone(this List<Music> musicas, int tone)
     {
-        var musicasByArtist = musicas.GetMusicByArtist(artistName);
+        return [.. musicas.Where(m => m.Key == tone)];
+    }
 
-        Console.WriteLine($"Musicas por artista ({artistName}): ");
-        foreach (var music in musicasByArtist)
-            if (music.IsValid) Console.WriteLine($"- {music.Name}");
+    public static List<Music> GetMusicByTone(this List<Music> musicas, string tone)
+    {
+        return [.. musicas.Where(m => m.Tone.Equals(tone))];
     }
 }

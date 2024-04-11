@@ -5,6 +5,9 @@ using System.Text.Json.Serialization;
 namespace consumo_api_alura.Models;
 internal class Music : IJsonSerializable
 {
+    [JsonIgnore]
+    private static readonly string[] _keysArray = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"];
+
     [JsonPropertyName("song")]
     public string? Name { get; set; }
     [JsonPropertyName("artist")]
@@ -13,6 +16,8 @@ internal class Music : IJsonSerializable
     public int? DurationMs { get; set; }
     [JsonPropertyName("genre")]
     public string? Genre { get; set; }
+    [JsonPropertyName("key")]
+    public int? Key { get; set; }
 
     [JsonIgnore]
     public TimeSpan Duration => IsValid ? new TimeSpan(0, 0, 0, 0, milliseconds: DurationMs!.Value) : new TimeSpan(0);
@@ -24,6 +29,8 @@ internal class Music : IJsonSerializable
     public string Summary => _summary();
     [JsonIgnore]
     public string InLine => _inLine();
+    [JsonIgnore]
+    public string Tone => IsValid ? _keysArray[Key!.Value] : "";
 
     [JsonIgnore]
     public bool IsValid
@@ -34,6 +41,7 @@ internal class Music : IJsonSerializable
             if (Artist is null) return false;
             if (DurationMs is null) return false;
             if (Genre is null) return false;
+            if (Key is null) return false;
 
             return true;
         }
@@ -54,7 +62,7 @@ internal class Music : IJsonSerializable
     {
         if (!IsValid) return "Invalid music.";
 
-        return $"- {Name} ({Minutes} minutos) | Feito por {Artist}";
+        return $"- {Name} ({Minutes} minutos) | Feito por {Artist} | Tonalidade {Tone}";
     }
 
     private string _summary()
@@ -62,10 +70,11 @@ internal class Music : IJsonSerializable
         if (!IsValid) return "Invalid music.";
 
         var summary = "";
-        summary += $"Nome: {Name}";
-        summary += $"Artista: {Artist}";
-        summary += $"Duração (Minutos): {Minutes}";
-        summary += $"Gêneros: {Genres}";
+        summary += $"Nome: {Name}\n";
+        summary += $"Artista: {Artist}\n";
+        summary += $"Duração (Minutos): {Minutes}\n";
+        summary += $"Gêneros: {Genres}\n";
+        summary += $"Tonalidade: {Tone}\n";
 
         return summary;
     }

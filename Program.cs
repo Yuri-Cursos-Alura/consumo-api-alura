@@ -7,7 +7,6 @@ using System.Text.Json;
 
 var endpoint = "https://guilhermeonrails.github.io/api-csharp-songs/songs.json";
 
-
 using (HttpClient client = new())
 {
     var httpResponse = await client.GetAsync(endpoint);
@@ -28,5 +27,10 @@ using (HttpClient client = new())
         return;
     }
 
-    musicas.GetMusicByArtist("U2").ToJson("U2-songs.json");
+    WhenValid(musicas);
+}
+
+static void WhenValid(List<Music> musicas)
+{
+    musicas.PrintMusicByTone("C#");
 }
