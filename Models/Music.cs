@@ -1,7 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using consumo_api_alura.Models.Interfaces;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace consumo_api_alura.Models;
-internal class Music
+internal class Music : IJsonSerializable
 {
     [JsonPropertyName("song")]
     public string? Name { get; set; }
@@ -36,6 +38,17 @@ internal class Music
             return true;
         }
     }
+
+    public void ToJson(string fileName, string filePath = "")
+    {
+        var finalPath = Path.Combine(filePath, fileName);
+
+        finalPath = Path.ChangeExtension(finalPath, null);
+
+        File.WriteAllText($"{finalPath}.json", JsonSerializer.Serialize(this));
+    }
+
+
 
     private string _inLine()
     {

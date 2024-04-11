@@ -38,9 +38,9 @@ internal static class Filters
             Console.WriteLine($"- {name}");
     }
 
-    public static List<string> GetMusicByArtist(this List<Music> musicas, string artistName)
+    public static List<Music> GetMusicByArtist(this List<Music> musicas, string artistName)
     {
-        return [.. musicas.Where(m => m.IsValid && m.Artist!.Equals(artistName)).Select(m => m.Name).Distinct()];
+        return [.. musicas.Where(m => m.IsValid && m.Artist!.Equals(artistName)).Distinct()];
     }
 
     public static void PrintMusicByArtist(this List<Music> musicas, string artistName)
@@ -49,6 +49,6 @@ internal static class Filters
 
         Console.WriteLine($"Musicas por artista ({artistName}): ");
         foreach (var music in musicasByArtist)
-            Console.WriteLine($"- {music}");
+            if (music.IsValid) Console.WriteLine($"- {music.Name}");
     }
 }

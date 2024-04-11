@@ -1,4 +1,5 @@
 ﻿
+using consumo_api_alura.Extensions;
 using consumo_api_alura.Filters;
 using consumo_api_alura.Models;
 using System.Net;
@@ -27,5 +28,5 @@ using (HttpClient client = new())
         return;
     }
 
-    musicas.PrintMusicByArtist("Michael Jackson");
+    musicas.GetMusicByArtist("U2").ToJson("U2-songs.json");
 }
