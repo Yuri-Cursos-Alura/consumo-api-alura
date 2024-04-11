@@ -13,7 +13,14 @@ internal class Music
     public string? Genre { get; set; }
 
     [JsonIgnore]
-    public TimeSpan Duration => IsValid ? new TimeSpan(0, 0, 0, 0, 0, microseconds: DurationMs!.Value) : new TimeSpan(0);
+    public TimeSpan Duration => IsValid ? new TimeSpan(0, 0, 0, 0, milliseconds: DurationMs!.Value) : new TimeSpan(0);
+    [JsonIgnore]
+    public string Minutes => string.Format("{0:0.0}", Duration.TotalMinutes);
+    public List<string> Genres => IsValid ? [.. Genre!.Split(", ")] : [];
+    [JsonIgnore]
+    public string Summary => _summary();
+    [JsonIgnore]
+    public string InLine => _inLine();
 
     [JsonIgnore]
     public bool IsValid
@@ -27,5 +34,25 @@ internal class Music
 
             return true;
         }
+    }
+
+    private string _inLine()
+    {
+        if (!IsValid) return "Invalid music.";
+
+        return $"- {Name} ({Minutes} minutos) | Feito por {Artist}";
+    }
+
+    private string _summary()
+    {
+        if (!IsValid) return "Invalid music.";
+
+        var summary = "";
+        summary += $"Nome: {Name}";
+        summary += $"Artista: {Artist}";
+        summary += $"Duração (Minutos): {Minutes}";
+        summary += $"Gêneros: {Genres}";
+
+        return summary;
     }
 }

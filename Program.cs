@@ -14,7 +14,7 @@ using (HttpClient client = new())
     
     if (response is null)
     {
-        Console.WriteLine("Unable to get enpoint.");
+        Console.WriteLine("Unable to get endpoint.");
         return;
     }
 
@@ -28,6 +28,7 @@ using (HttpClient client = new())
 
     foreach (var musica in musicas)
     {
-        Console.WriteLine($"- {musica.Name} | IsValid: {musica.IsValid}");
+        if (musica.IsValid)
+            Console.WriteLine(musica.InLine);
     }
 }
