@@ -16,6 +16,7 @@ internal class Music
     public TimeSpan Duration => IsValid ? new TimeSpan(0, 0, 0, 0, milliseconds: DurationMs!.Value) : new TimeSpan(0);
     [JsonIgnore]
     public string Minutes => string.Format("{0:0.0}", Duration.TotalMinutes);
+    [JsonIgnore]
     public List<string> Genres => IsValid ? [.. Genre!.Split(", ")] : [];
     [JsonIgnore]
     public string Summary => _summary();

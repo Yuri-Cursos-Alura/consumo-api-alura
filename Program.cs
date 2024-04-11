@@ -1,4 +1,5 @@
 ﻿
+using consumo_api_alura.Filters;
 using consumo_api_alura.Models;
 using System.Net;
 using System.Text.Json;
@@ -26,9 +27,5 @@ using (HttpClient client = new())
         return;
     }
 
-    foreach (var musica in musicas)
-    {
-        if (musica.IsValid)
-            Console.WriteLine(musica.InLine);
-    }
+    musicas.PrintMusicByArtist("Michael Jackson");
 }
